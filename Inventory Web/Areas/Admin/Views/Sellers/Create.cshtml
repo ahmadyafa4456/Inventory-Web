@@ -1,0 +1,45 @@
+﻿@model SellerVM
+<div class="container">
+    <div class="row pt-4 pb-3">
+        <div class="col-12">
+            <h2 class="text-dark">Create Seller</h2>
+        </div>
+    </div>
+    <form method="post" action="create">
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label">Name</label>
+            <input asp-for="Name" type="text" class="form-control">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label">Email</label>
+            <input asp-for="Email" type="email" class="form-control">
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Password" class="form-label">Password</label>
+            <input asp-for="Password" type="password" class="form-control">
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="City" class="form-label">City</label>
+            <input asp-for="City" type="text" class="form-control">
+            <span asp-validation-for="City" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Street" class="form-label">Street</label>
+            <input asp-for="Street" type="text" class="form-control">
+            <span asp-validation-for="Street" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <button class="btn btn-dark form-control" type="submit">Create</button>
+            </div>
+            <div class="col-6">
+                <a asp-area="Admin" asp-controller="Sellers" asp-action="Index" class="btn btn-outline-secondary form-control">
+                    Back to List
+                </a>
+            </div>
+        </div>
+    </form>
+</div>

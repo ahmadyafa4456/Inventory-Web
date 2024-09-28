@@ -1,0 +1,48 @@
+﻿@model OrderVM
+<div class="container">
+    <div class="row pt-4 pb-3">
+        <div class="col-12">
+            <h2 class="text-dark">Create Order</h2>
+        </div>
+    </div>
+    <form method="post" asp-action="create">
+        <div class="mb-3">
+            <label asp-for="Orders.Name" class="form-label">Name</label>
+            <input asp-for="Orders.Name" type="text" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label asp-for="Orders.Street" class="form-label">Street</label>
+            <input asp-for="Orders.Street" type="text" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label asp-for="Orders.City" class="form-label">City</label>
+            <input asp-for="Orders.City" type="text" class="form-control">
+        </div>
+        <div class="mb-3 p-1">
+            <label class="form-label">Product</label>
+            @if (Model.ProductList.Any())
+            {
+            <select asp-for="Orders.ProductsId" asp-items="@Model.ProductList" class="form-select p-2">
+                <option disabled selected>--Select Product--</option>
+            </select>         
+            }
+            else
+            {
+            <select class="form-select p-2">
+                <option disabled selected>--No Product--</option>
+            </select>
+            }
+            <span class="text-danger"></span>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <button class="btn btn-dark form-control" type="submit">Create</button>
+            </div>
+            <div class="col-6">
+                <a asp-area="Seller" asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary form-control">
+                    Back to List
+                </a>
+            </div>
+        </div>
+    </form>
+</div>

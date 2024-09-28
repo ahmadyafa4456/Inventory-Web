@@ -1,0 +1,14 @@
+.card-form {
+    width: 450px;
+}
+
+.cf {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.w100 {
+    width: 100%;
+}

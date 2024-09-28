@@ -1,0 +1,52 @@
+﻿@model ProductVM
+<div class="container">
+    <div class="row pt-4 pb-3">
+        <div class="col-12">
+            <h2 class="text-dark">Create Product</h2>
+        </div>
+    </div>
+    <form method="post" asp-action="create" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label asp-for="product.title" class="form-label">Title</label>
+            <input asp-for="product.title" type="text" class="form-control">
+            <span asp-validation-for="product.title" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="product.price" class="form-label">Price</label>
+            <input asp-for="product.price" type="number" class="form-control">
+            <span asp-validation-for="product.price" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="product.stock" class="form-label">Stock</label>
+            <input asp-for="product.stock" type="text" class="form-control">
+            <span asp-validation-for="product.stock" class="text-danger"></span>
+        </div>
+        <div class="mb-3 p-1">
+            <label asp-for="product.url" class="p-0"></label>
+            <input type="file" name="file" class="form-control" />
+            <span asp-validation-for="product.url" class="text-danger"></span>
+        </div>
+        <div class="mb-3 p-1">
+            <label class="form-label">Category</label>
+            <select asp-for="product.CategoryId" asp-items="@Model.CategoryList" class="form-select p-2">
+                <option disabled selected>--Select Category--</option>
+            </select>
+            <span asp-validation-for="product.CategoryId" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <button class="btn btn-dark form-control" type="submit">Create</button>
+            </div>
+            <div class="col-6">
+                <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary form-control">
+                    Back to List
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

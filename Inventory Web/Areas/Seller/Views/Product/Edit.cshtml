@@ -1,0 +1,63 @@
+﻿@model ProductVM
+<div class="container">
+    <div class="row pt-4 pb-3">
+        <div class="col-12">
+            <h2 class="text-dark">Edit Product</h2>
+        </div>
+    </div>
+    <form method="post" asp-action="edit" enctype="multipart/form-data">
+        <input asp-for="product.Id" hidden />
+        <input asp-for="product.SellerId" hidden />
+        <input asp-for="product.url" hidden />
+        <div class="mb-3">
+            <label asp-for="product.title" class="form-label">Title</label>
+            <input asp-for="product.title" type="text" class="form-control">
+            <span asp-validation-for="product.title" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="product.price" class="form-label">Price</label>
+            <input asp-for="product.price" type="number" class="form-control">
+            <span asp-validation-for="product.price" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="product.stock" class="form-label">Stock</label>
+            <input asp-for="product.stock" type="text" class="form-control">
+            <span asp-validation-for="product.stock" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="product.status" class="form-label">Status</label>
+            <input asp-for="product.status" type="text" class="form-control">
+        </div>
+        @if (@Model.product.url != null)
+        {
+            <img src="@Model.product.url" class="w-25 custom-height" alt="...">
+        }
+        <div class="mb-3 p-1">
+            <label asp-for="product.url" class="p-0"></label>
+            <input type="file" name="file" class="form-control" />
+            <span asp-validation-for="product.url" class="text-danger"></span>
+        </div>
+        <div class="mb-3 p-1">
+            <label class="form-label">Category</label>
+            <select asp-for="product.CategoryId" asp-items="@Model.CategoryList" class="form-select p-2">
+                <option disabled selected>--Select Category--</option>
+            </select>
+            <span asp-validation-for="product.CategoryId" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <button class="btn btn-dark form-control" type="submit">Edit</button>
+            </div>
+            <div class="col-6">
+                <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary form-control">
+                    Back to List
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
