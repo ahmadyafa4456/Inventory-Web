@@ -13,6 +13,7 @@ namespace Inventory_Web.Areas.Seller.Controllers
     [Area("Seller")]
     public class ProductController : Controller
     {
+        private readonly string pathlocation = $"{Directory.GetCurrentDirectory()}\\wwwroot\\img\\product";
         private readonly ApplicationDbContext db;
         private readonly IWebHostEnvironment webHostEnvironment;
         private readonly UserManager<AppUser> userManager;
@@ -34,7 +35,7 @@ namespace Inventory_Web.Areas.Seller.Controllers
         {
             var seller = await GetSellerId();
             List<Products> product = await db.Product.Include(u => u.Category).Where(u => u.SellerId == seller.Id).ToListAsync();
-            if(product != null)
+            if (product != null)
             {
                 return View(product);
             }
@@ -69,12 +70,15 @@ namespace Inventory_Web.Areas.Seller.Controllers
             };
             if (ModelState.IsValid)
             {
-                string wwwRootPath = webHostEnvironment.WebRootPath;
-                if(file != null)
+                if (file != null)
                 {
+                    if (!Directory.Exists(pathlocation))
+                    {
+                        Directory.CreateDirectory(pathlocation);
+                    }
                     string filename = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                    string productPath = Path.Combine(wwwRootPath, @"img\product");
-                    using(var fileStream = new FileStream(Path.Combine(productPath, filename), FileMode.Create))
+                    string productPath = Path.Combine(pathlocation, filename);
+                    using (var fileStream = new FileStream(productPath, FileMode.Create))
                     {
                         file.CopyTo(fileStream);
                     }
@@ -115,22 +119,22 @@ namespace Inventory_Web.Areas.Seller.Controllers
             {
                 ModelState.AddModelError("product.url", "Image must be required");
             }
-            if (ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
-                string wwwRootPath = webHostEnvironment.WebRootPath;
-                if(file != null)
+                if (file != null)
                 {
                     string filename = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                    string productPath = Path.Combine(wwwRootPath, @"img\product");
+                    string productPath = Path.Combine(pathlocation, filename);
                     if (!string.IsNullOrEmpty(model.product.url))
                     {
+                        string wwwRootPath = webHostEnvironment.WebRootPath;
                         var oldImage = Path.Combine(wwwRootPath, model.product.url.TrimStart('\\'));
                         if (System.IO.File.Exists(oldImage))
                         {
                             System.IO.File.Delete(oldImage);
                         }
                     }
-                    using (var fileStream = new FileStream(Path.Combine(productPath, filename), FileMode.Create))
+                    using (var fileStream = new FileStream(productPath, FileMode.Create))
                     {
                         file.CopyTo(fileStream);
                     }
@@ -142,14 +146,14 @@ namespace Inventory_Web.Areas.Seller.Controllers
             }
             return View(model);
         }
-        
+
         public async Task<IActionResult> Delete(int? id)
         {
             Products product = await db.Product.Where(u => u.Id == id).FirstOrDefaultAsync();
-            string wwwRootPath = webHostEnvironment.WebRootPath;
             Orders order = await db.Orders.Where(u => u.ProductsId == product.Id).FirstOrDefaultAsync();
             if (!string.IsNullOrEmpty(product.url))
             {
+                string wwwRootPath = webHostEnvironment.WebRootPath;
                 var oldImage = Path.Combine(wwwRootPath, product.url.TrimStart('\\'));
                 if (System.IO.File.Exists(oldImage))
                 {
