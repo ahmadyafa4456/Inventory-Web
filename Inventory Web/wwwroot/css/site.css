@@ -24,3 +24,7 @@ body {
 .custom-height {
     height: 200px;
 }
+
+.pb {
+  padding-bottom: 2.5rem;
+}

@@ -1,5 +1,6 @@
 ﻿using Inventory_Web.Data;
 using Inventory_Web.Models;
+using Inventory_Web.Models.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +30,16 @@ namespace Inventory_Web.Areas.Seller.Controllers
             var seller = await GetSellerId();
             ViewBag.Product = await db.Product.Where(u => u.SellerId == seller.Id).CountAsync();
             ViewBag.Order = await db.Orders.Where(u => u.SellersId == seller.Id).Where(u => u.Status == "paid").CountAsync();
-            return View();
+            IQueryable<Orders> item1 = db.Orders.Include(p => p.Products).AsQueryable();
+            IQueryable<Products> item2 = db.Product.Include(p => p.Category).AsQueryable();
+            List<Orders> order = await item1.Take(3).OrderBy(p => p.Name).ToListAsync();
+            List<Products> product = await item2.Take(3).OrderBy(p => p.Id).ToListAsync();
+            var home = new HomeVM
+            {
+                orders = order,
+                product = product
+            };
+            return View(home);
         }
     }
 }
